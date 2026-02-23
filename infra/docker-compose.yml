@@ -16,6 +16,17 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
-
+    api:
+      build:
+        context: ../api
+      container_name: ga-api
+      env_file:
+        - .env
+      depends_on:
+        db:
+          condition: service_healthy
+      ports:
+        - "${API_PORT:-8001}:8000"
+      restart: unless-stopped
 volumes:
   ga_pgdata:
