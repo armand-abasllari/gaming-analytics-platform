@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   db:
     image: postgres:16
@@ -19,7 +21,8 @@ services:
 
   api:
     build:
-      context: ../api
+      context: ..
+      dockerfile: api/Dockerfile
     container_name: ga-api
     env_file:
       - .env
