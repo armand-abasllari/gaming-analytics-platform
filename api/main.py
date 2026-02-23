@@ -4,9 +4,11 @@ import psycopg
 
 app = FastAPI(title="Gaming Analytics API")
 
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
 
 @app.get("/health/db")
 def health_db():
@@ -17,6 +19,7 @@ def health_db():
         f"user={os.getenv('POSTGRES_USER')} "
         f"password={os.getenv('POSTGRES_PASSWORD')}"
     )
+
     try:
         with psycopg.connect(conninfo, connect_timeout=3) as conn:
             with conn.cursor() as cur:
