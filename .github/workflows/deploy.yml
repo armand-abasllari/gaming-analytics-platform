@@ -38,11 +38,13 @@ jobs:
             docker compose ps
 
             echo "== Health check (wait up to 60s) =="
+
             for i in $(seq 1 30); do
-              if curl -fsS http://127.0.0.1:8001/health >/dev/null; then
+              if curl -fsS http://127.0.0.1:8001/health > /dev/null 2>&1; then
                 echo "Healthy ✅"
                 exit 0
               fi
+
               echo "Not ready yet... ($i/30)"
               sleep 2
             done
