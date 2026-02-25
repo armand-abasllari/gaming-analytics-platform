@@ -37,5 +37,16 @@ jobs:
             echo "== Status =="
             docker compose ps
 
-            echo "== Health check =="
-            curl -fsS http://127.0.0.1:8001/health
+            echo "== Health check (wait up to 60s) =="
+            for i in $(seq 1 30); do
+              if curl -fsS http://127.0.0.1:8001/health >/dev/null; then
+                echo "Healthy ✅"
+                exit 0
+              fi
+              echo "Not ready yet... ($i/30)"
+              sleep 2
+            done
+
+            echo "Health check failed ❌"
+            docker compose logs --tail=200 api || true
+            exit 1
